@@ -1,0 +1,15 @@
+[worldserver]
+
+#
+# This file is part of Project SkyFire https://www.projectskyfire.org.
+# See LICENSE.md file for Copyright information
+#
+# Copy this file to eluna.conf alongside the worldserver.conf selected with -c.
+# Requires MODULES=ON and MOD_ELUNA=ON at configure time.
+# Enable/disable changes require a worldserver restart.
+#
+Eluna.Enabled = 0
+
+# Relative paths retain the existing worldserver working-directory behavior.
+# On Linux, use the absolute installed path if running outside the config folder.
+Eluna.ScriptPath = "lua_scripts"
