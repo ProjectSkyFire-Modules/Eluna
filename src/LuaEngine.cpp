@@ -214,18 +214,18 @@ void Eluna::LoadDirectory(const char* Dirname, LoadedScripts* lscr)
     bool error;
     while (fileCount--)
     {
-        char _path[200];
-        sprintf(_path, "%s/%s", Dirname, list[fileCount]->d_name);
-        if (stat(_path, &attributes) == -1)
+        // std::string: a fixed buffer overflows on long script folder paths
+        std::string _path = std::string(Dirname) + "/" + list[fileCount]->d_name;
+        if (stat(_path.c_str(), &attributes) == -1)
         {
             error = true;
-            TC_LOG_ERROR("server.loading", "[Eluna]: Error opening `%s`", _path);
+            TC_LOG_ERROR("server.loading", "[Eluna]: Error opening `%s`", _path.c_str());
         }
         else
             error = false;
 
         if (!error && S_ISDIR(attributes.st_mode))
-            LoadDirectory((char*)_path, lscr);
+            LoadDirectory(_path.c_str(), lscr);
         else
         {
             char* ext = strrchr(list[fileCount]->d_name, '.');

@@ -1942,7 +1942,7 @@ namespace LuaPlayer
     {
         const char* msg = luaL_checkstring(L, 1);
         if (std::string(msg).length() > 0)
-            player->GetSession()->SendNotification(msg);
+            player->GetSession()->SendNotification("%s", msg); // msg is script text, never a format
         return 0;
     }
 
