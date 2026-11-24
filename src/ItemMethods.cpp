@@ -36,27 +36,24 @@ namespace LuaItem
 
         if (int32 itemRandPropId = item->GetItemRandomPropertyId())
         {
-            char* const* suffix = NULL;
+            // The 5.4.8 DBC stores nameSuffix as one string, not a per-locale array
+            char const* suffix = nullptr;
             if (itemRandPropId < 0)
             {
                 const ItemRandomSuffixEntry* itemRandEntry = sItemRandomSuffixStore.LookupEntry(-item->GetItemRandomPropertyId());
                 if (itemRandEntry)
-                    suffix = (char* const*)itemRandEntry->nameSuffix[loc_idx];
+                    suffix = itemRandEntry->nameSuffix;
             }
             else
             {
                 const ItemRandomPropertiesEntry* itemRandEntry = sItemRandomPropertiesStore.LookupEntry(item->GetItemRandomPropertyId());
                 if (itemRandEntry)
-                    suffix = (char* const*)itemRandEntry->nameSuffix[loc_idx];
+                    suffix = itemRandEntry->nameSuffix;
             }
-            if (suffix)
+            if (suffix && *suffix)
             {
-                std::string test(suffix[(name != temp->Name1) ? loc_idx : DEFAULT_LOCALE]);
-                if (!test.empty())
-                {
-                    name += ' ';
-                    name += test;
-                }
+                name += ' ';
+                name += suffix;
             }
         }
 
